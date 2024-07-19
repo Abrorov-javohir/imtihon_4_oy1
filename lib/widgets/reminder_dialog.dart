@@ -52,6 +52,8 @@ class _ReminderDialogState extends State<ReminderDialog> {
       if (selectedDateTime.isAfter(now)) {
         final scheduledDate = tz.TZDateTime.from(selectedDateTime, tz.local);
         NotificationService().scheduleNotification(scheduledDate);
+        NotificationService()
+            .schedulePushNotification(selectedDateTime, "You have a reminder");
         print(
             'Reminder set for: ${DateFormat('dd MM yyyy').format(_selectedDate!)} at ${_selectedTime!.format(context)}');
       } else {

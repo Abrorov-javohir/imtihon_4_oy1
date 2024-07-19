@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:imtihon_4_oy1/widgets/booking_bottom_sheet.dart';
 import 'dart:io';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:imtihon_4_oy1/widgets/reminder_dialog.dart';
+import 'package:imtihon_4_oy1/widgets/booking_bottom_sheet.dart';
 
 class InformationOfEventScreen extends StatefulWidget {
   const InformationOfEventScreen({Key? key}) : super(key: key);

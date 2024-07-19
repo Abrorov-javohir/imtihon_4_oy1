@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest_all.dart' as tzl;
@@ -50,6 +51,12 @@ class NotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       androidAllowWhileIdle: true,
+    );
+  }
+   void schedulePushNotification(DateTime scheduledDate, String message) {
+    FirebaseMessaging.instance.sendMessage(
+      to: 'your topic',
+      data: {'message': message, 'scheduledDate': scheduledDate.toIso8601String()},
     );
   }
 }
