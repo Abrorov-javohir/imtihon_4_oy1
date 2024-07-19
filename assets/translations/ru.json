@@ -1,0 +1,21 @@
+{
+  "Login here": "Войти здесь",
+  "Don't have an account?": "Нет аккаунта?",
+  "Register": "Регистрация",
+  "Login": "Войти",
+  "Name": "Имя",
+  "Email": "Эл. почта",
+  "Password": "Пароль",
+  "Confirm Password": "Подтвердите пароль",
+  "Menu": "Меню",
+  "My events": "Мои события",
+  "Profile Information": "Информация профиля",
+  "Change Language": "Изменить язык",
+  "Dark Mode": "Темный режим",
+  "Light Mode": "Светлый режим",
+  "Logout": "Выйти",
+  "Home": "Главная",
+  "Events in the next 7 days": "События на ближайшие 7 дней",
+  "All Events": "Все события",
+  "Search for events": "Поиск событий"
+}

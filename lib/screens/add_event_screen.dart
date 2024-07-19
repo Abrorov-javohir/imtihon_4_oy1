@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 
@@ -21,6 +26,36 @@ class _AddEventScreenState extends State<AddEventScreen> {
   Point? selectedLocation;
   List<MapObject> mapObjects = [];
   final Location location = Location();
+  File? _image;
+  User? user;
+
+  Future pickImage(ImageSource source) async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: source);
+
+    if (pickedFile != null) {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+      await _uploadImage(_image!);
+    }
+  }
+
+  Future<void> _uploadImage(File image) async {
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('images')
+          .child('${user!.uid}.jpg');
+      await storageRef.putFile(image);
+      final downloadUrl = await storageRef.getDownloadURL();
+
+      await user!.updatePhotoURL(downloadUrl);
+      setState(() {});
+    } catch (e) {
+      print('Failed to upload image: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +126,36 @@ class _AddEventScreenState extends State<AddEventScreen> {
                     InputDecoration(labelText: 'Tadbir haqida ma\'lumot:'),
                 maxLines: 3,
               ),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      pickImage(ImageSource.camera);
+                    },
+                    icon: Icon(
+                      Icons.camera,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      pickImage(ImageSource.gallery);
+                    },
+                    icon: Icon(
+                      Icons.photo,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 16),
+              if (_image != null)
+                Container(
+                  height: 100,
+                  width: 100,
+                  child: Image.file(
+                    _image!,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               const SizedBox(height: 16),
               Container(
                 height: 300,

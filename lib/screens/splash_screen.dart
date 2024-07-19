@@ -57,7 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
           child: TweenAnimationBuilder<double>(
             tween: Tween<double>(begin: 1.0, end: isBig ? 1.2 : 1.0),
             duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
+            curve: Curves.easeIn,
             builder: (context, scale, child) {
               return Transform.scale(
                 scale: scale,
@@ -68,7 +68,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: TweenAnimationBuilder<Color?>(
                     tween: ColorTween(
                       begin: Colors.white,
-                      end: isBright ? Colors.yellow : Colors.white,
+                      end: isBright ? Colors.white : Colors.white,
                     ),
                     duration: const Duration(milliseconds: 500),
                     builder: (context, color, child) {
@@ -92,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> {
               });
             },
             child: Image.asset(
-              "assets/logo_imtihon.png",
+              "assets/imtihon_logo_javohir.png",
               width: 300.0,
               height: 300.0,
               fit: BoxFit.contain,

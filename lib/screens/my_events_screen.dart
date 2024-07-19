@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:imtihon_4_oy1/screens/edit_event_screen.dart';
 import 'package:imtihon_4_oy1/services/event_service.dart';
+import 'package:imtihon_4_oy1/widgets/my_drawer.dart';
 import 'package:provider/provider.dart';
 import 'add_event_screen.dart';
 
 class MyEventsScreen extends StatefulWidget {
+  const MyEventsScreen({super.key});
+
   @override
   _MyEventsScreenState createState() => _MyEventsScreenState();
 }
@@ -11,11 +15,22 @@ class MyEventsScreen extends StatefulWidget {
 class _MyEventsScreenState extends State<MyEventsScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  List<String> registeredEvents = [
+    "Event 1",
+    "Event 2",
+    "Event 3"
+  ]; // example events
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+  }
+
+  void _cancelRegistration(int index) {
+    setState(() {
+      registeredEvents.removeAt(index);
+    });
   }
 
   @override
@@ -30,28 +45,31 @@ class _MyEventsScreenState extends State<MyEventsScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'My Events',
           style: TextStyle(
-            color: Colors.blue,
+            color: Colors.orange,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.blue),
+        iconTheme: const IconThemeData(color: Colors.orange),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: const Icon(
+              Icons.notifications,
+              color: Colors.orange,
+            ),
             onPressed: () {},
           ),
         ],
         bottom: TabBar(
           controller: _tabController,
-          labelColor: Colors.blue,
+          labelColor: Colors.orange,
           unselectedLabelColor: Colors.black,
-          indicatorColor: Colors.blue,
-          tabs: [
+          indicatorColor: Colors.orange,
+          tabs: const [
             Tab(text: 'Tashkil qilganlarim'),
             Tab(text: 'Yaqinda'),
             Tab(text: 'Ishtirok etganlarim'),
@@ -59,13 +77,14 @@ class _MyEventsScreenState extends State<MyEventsScreen>
           ],
         ),
       ),
+      drawer: const MyDrawer(),
       body: TabBarView(
         controller: _tabController,
         children: [
           _buildEventList(eventViewModel),
-          const Center(child: Text('Yaqinda')),
-          Center(child: Text('Ishtirok etganlarim')),
-          Center(child: Text('Bekor qilganlarim')),
+          _buildEventList(eventViewModel),
+          _buildCancelledEventsList(),
+          const Center(child: Text('Bekor qilganlarim')),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -75,22 +94,26 @@ class _MyEventsScreenState extends State<MyEventsScreen>
             MaterialPageRoute(builder: (context) => const AddEventScreen()),
           );
         },
-        child: Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.orange,
+        child: const Icon(Icons.add),
       ),
     );
   }
 
   Widget _buildEventList(EventService eventViewModel) {
+    if (eventViewModel.events == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return ListView.builder(
-      padding: EdgeInsets.all(8),
+      padding: const EdgeInsets.all(8),
       itemCount: eventViewModel.events.length,
       itemBuilder: (context, index) {
         final event = eventViewModel.events[index];
         return Card(
-          margin: EdgeInsets.symmetric(vertical: 8),
+          margin: const EdgeInsets.symmetric(vertical: 8),
           child: ListTile(
-            leading: Image.asset("assets/logo_imtihon.png"),
+            leading: Image.asset("assets/imtihon_logo_javohir.png"),
             title: Text(event.name),
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +131,9 @@ class _MyEventsScreenState extends State<MyEventsScreen>
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AddEventScreen(),
+                        builder: (context) => EditEventScreen(
+                          event: event,
+                        ),
                       ),
                     );
                   }
@@ -125,6 +150,23 @@ class _MyEventsScreenState extends State<MyEventsScreen>
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCancelledEventsList() {
+    return ListView.builder(
+      padding: const EdgeInsets.all(8),
+      itemCount: registeredEvents.length,
+      itemBuilder: (context, index) {
+        return Card(
+          margin: const EdgeInsets.symmetric(vertical: 8),
+          child: ListTile(
+            leading: Image.asset("assets/result.png"),
+            title: Text(registeredEvents[index]),
+            subtitle: const Text("Tadbir joyi: Yoshlar ijod saroyi"),
           ),
         );
       },

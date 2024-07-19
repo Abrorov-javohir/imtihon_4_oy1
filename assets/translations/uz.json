@@ -1,0 +1,21 @@
+{
+  "Login here": "Bu yerda kiring",
+  "Don't have an account?": "Hisobingiz yo'qmi?",
+  "Register": "Ro'yxatdan o'tish",
+  "Login": "Kirish",
+  "Name": "Ism",
+  "Email": "Elektron pochta",
+  "Password": "Parol",
+  "Confirm Password": "Parolni tasdiqlang",
+  "Menu": "Menyu",
+  "My events": "Mening tadbirlarim",
+  "Profile Information": "Profil ma'lumotlari",
+  "Change Language": "Tilni o'zgartirish",
+  "Dark Mode": "Tungi rejim",
+  "Light Mode": "Kunduzgi rejim",
+  "Logout": "Chiqish",
+  "Home": "Bosh sahifa",
+  "Events in the next 7 days": "Yaqin 7 kun ichidagi tadbirlar",
+  "All Events": "Barcha tadbirlar",
+  "Search for events":"Tadbilarni izlash"
+}

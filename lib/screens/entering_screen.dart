@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:imtihon_4_oy1/screens/login_screen.dart';
-import 'package:imtihon_4_oy1/screens/sign_in_screen.dart';
+import 'package:imtihon_4_oy1/screens/register_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
           const Spacer(), // Add Spacer before the avatar
           Center(
             child: Image.asset(
-              "assets/logo_imtihon.png",
+              "assets/imtihon_logo_javohir.png",
               width: 300.0,
               height: 300.0,
               fit: BoxFit.contain,
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(
                   vertical: 15), // Vertical padding for height
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Colors.orange,
                 borderRadius: BorderRadius.circular(30),
               ),
               child: Center(

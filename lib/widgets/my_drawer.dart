@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,10 @@ import 'dart:io';
 
 import 'package:imtihon_4_oy1/screens/login_screen.dart';
 import 'package:imtihon_4_oy1/screens/my_events_screen.dart';
+import 'package:imtihon_4_oy1/screens/profile_Screen.dart';
 import 'package:imtihon_4_oy1/services/auth_firebase.dart';
+import 'package:imtihon_4_oy1/widgets/change_language.dart';
+import 'package:imtihon_4_oy1/widgets/change_theme.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
@@ -93,7 +97,7 @@ class _MyDrawerState extends State<MyDrawer> {
         children: [
           UserAccountsDrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.orange,
             ),
             accountName: Text(user?.displayName ?? ""),
             accountEmail: Text(user?.email ?? "No Email"),
@@ -108,7 +112,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             leading: const Icon(Icons.home),
-            title: const Text('Bosh Sahifa'),
+            title: Text('Menu'.tr()),
             onTap: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
                 return HomePage();
@@ -117,7 +121,7 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             leading: const Icon(CupertinoIcons.ticket),
-            title: const Text('Mening tadbirlarim'),
+            title: Text('My events'.tr()),
             onTap: () {
               Navigator.push(
                 context,
@@ -131,28 +135,49 @@ class _MyDrawerState extends State<MyDrawer> {
           ),
           ListTile(
             leading: const Icon(CupertinoIcons.person),
-            title: const Text('Profil Ma\'lumotlari'),
+            title: Text('Profile Information'.tr()),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ProfileScreen();
+                  },
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.translate),
-            title: const Text('Tillarni uzgartirish'),
+            title: Text('Change Language'.tr()),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChangeLanguageScreen();
+                  },
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.nights_stay_outlined),
-            title: const Text('Tungi va kunduzgi holatlar'),
+            title: Text('Light mode and Dark Mode'.tr()).tr(),
             onTap: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChangeTheme();
+                  },
+                ),
+              );
             },
           ),
           ListTile(
             leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
+            title: Text('Logout'.tr()),
             onTap: () async {
               await FirebaseAuthService().logout();
               // Use Future.microtask to ensure the drawer is closed before navigating

@@ -12,6 +12,8 @@ class EventService extends ChangeNotifier {
     fetchEvents();
   }
 
+  get canceledEvents => null;
+
   Future<void> fetchEvents() async {
     try {
       final querySnapshot = await eventsCollection.get();
@@ -69,4 +71,6 @@ class EventService extends ChangeNotifier {
       return snapshot.docs.map((doc) => Event.fromDocument(doc)).toList();
     });
   }
+
+  void cancelEvent(id) {}
 }

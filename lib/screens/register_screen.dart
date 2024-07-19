@@ -1,22 +1,21 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:imtihon_4_oy1/screens/home_page.dart';
-import 'package:imtihon_4_oy1/screens/register_screen.dart';
 import 'package:imtihon_4_oy1/services/auth_firebase.dart';
 import 'package:imtihon_4_oy1/utils/helpers.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
   final nameController = TextEditingController();
 
   final firebaseAuthService = FirebaseAuthService();
@@ -32,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
       Future.microtask(() {
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) {
-          return const HomePage();
+          return HomePage();
         }));
       });
     }
@@ -41,9 +40,10 @@ class _LoginScreenState extends State<LoginScreen> {
   void submit() async {
     if (emailController.text.isNotEmpty &&
         passwordController.text.isNotEmpty &&
+        passwordController.text == passwordConfirmationController.text &&
         nameController.text.isNotEmpty) {
       try {
-        await firebaseAuthService.login(
+        await firebaseAuthService.register(
           emailController.text,
           passwordController.text,
           nameController.text,
@@ -51,19 +51,17 @@ class _LoginScreenState extends State<LoginScreen> {
         Future.microtask(() {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) {
-            return const HomePage();
+            return HomePage();
           }));
         });
       } on FirebaseAuthException catch (error) {
-        // ignore: use_build_context_synchronously
         Helpers.showErrorDialog(context, error.message ?? "Xatolik");
       } catch (e) {
-        // ignore: use_build_context_synchronously
         Helpers.showErrorDialog(context, "Tizimda xatolik");
       }
     } else {
-      Helpers.showErrorDialog(
-          context, "Iltimos, email,parol va ismlarni kiriting");
+      Helpers.showErrorDialog(context,
+          "Iltimos, to'liq ma'lumot kiriting va parollar bir xil ekanligini tekshiring");
     }
   }
 
@@ -82,13 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 300.0,
                 fit: BoxFit.contain,
               ),
-              Text(
-                "Tizimga kirish",
-                style: GoogleFonts.aBeeZee(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              ).tr(),
+              const Text(
+                "Ro'yxatdan o'tish",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.fromLTRB(40, 0, 40, 2),
@@ -119,15 +114,11 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(40, 0, 40, 2),
                 child: TextField(
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.aBeeZee().toString(),
-                  ),
                   cursorColor: Colors.orange,
                   controller: emailController,
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Email",
-                    // GoogleFonts.italianno dan foydalanish
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         color: Colors.orange,
@@ -164,6 +155,28 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                 ),
               ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(40, 0, 40, 2),
+                child: TextField(
+                  controller: passwordConfirmationController,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: "Parolni tasdiqlang",
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.orange,
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.orange,
+                      ),
+                    ),
+                  ),
+                  obscureText: true,
+                ),
+              ),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.fromLTRB(40, 0, 40, 2),
@@ -174,13 +187,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(4),
-                        side: const BorderSide(
+                        side: BorderSide(
                             color: Color.fromARGB(255, 255, 115, 0),
                             width: 2.0), // Border rangi va kengligi
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: const Color.fromARGB(
-                          255, 255, 221, 202), // Ichki rangi
+                      backgroundColor:
+                          Color.fromARGB(255, 255, 221, 202), // Ichki rangi
                       foregroundColor: Colors.black, // Matnning rangi
                     ),
                     child: const Text(
@@ -196,12 +209,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (ctx) {
-                    return const RegisterScreen();
-                  }));
+                  Navigator.pop(context);
                 },
                 child: const Text(
-                  "Ro'yxatdan o'tish",
+                  "Login",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.bold,
